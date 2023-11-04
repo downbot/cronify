@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+//import './App.css';
+import {Page, Card, Button, Toolbar, ToolbarButton, BackButton, Icon} from 'react-onsenui';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Page renderToolbar={() =>
+      <Toolbar>
+        <div className="left">
+          <ToolbarButton><Icon icon="md-menu" /></ToolbarButton>
+        </div>
+        <div className="center">Cronify</div>
+      </Toolbar> } >
+      <Card>
+        <p>Tarjetas</p>
+      </Card>
+      <Card>
+        <Button>Bancos</Button>
+      </Card>
+    </Page>
   );
 }
 
