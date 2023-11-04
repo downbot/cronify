@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import OnsenUI from 'onsenui';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
@@ -11,7 +12,11 @@ import 'onsenui/css/onsen-css-components.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Auth0Provider domain="cugli.auth0.com"
+      clientId="7GqoTfTRRm7mpGRor8ZxLM2j9En2AUgj"
+      authorizationParams={{redirect_uri: window.location.origin }} >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>
 );
 
