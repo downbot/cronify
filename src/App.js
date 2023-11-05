@@ -1,6 +1,7 @@
 import React from 'react';
+import MainTab from "./Components/MainTab";
 import {LoginButton, LogoutButton, AuthCard, UserInfoCard} from "./Components/Auth";
-import {Page, Card, Button, Toolbar, ToolbarButton, BackButton, Icon} from 'react-onsenui';
+import {Page, Card, Button, Toolbar, ToolbarButton, BackButton, Icon, Tabbar, Tab, TabPage} from 'react-onsenui';
 
 function App() {
   return (
@@ -11,6 +12,9 @@ function App() {
         </div>
         <div className="center">Cronify</div>
       </Toolbar> } >
+
+      <MainTab />
+
       <Card>
         <p>Tarjetas</p>
       </Card>
