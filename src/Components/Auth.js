@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {useAuth0} from "@auth0/auth0-react"
 import {Button, Card} from 'react-onsenui'
 
@@ -21,6 +21,8 @@ export function LogoutButton() {
 
 export function UserInfoCard() {
   const { user, isAuthenticated, isLoading } = useAuth0()
+  window.cronify_user = user
+
   return (
       <Card>
         { isLoading &&
@@ -44,6 +46,35 @@ export function AuthCard() {
       <div>
       { !isAuthenticated && <LoginButton/>  }
       {  isAuthenticated && <LogoutButton/> }
+      </div>
+    </Card>
+  )
+}
+
+//getAccessTokenWithPopup
+export function AuthToken() {
+  const { getAccessTokenSilently } = useAuth0();
+  const [accessToken, setAccessToken] = useState('accessToken?');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          authorizationParams: { audience: 'https://cronify/hasura'  }
+        });
+        setAccessToken(token)
+        window.cronify_token = token
+      } catch (e) {
+        console.error(e);
+	setAccessToken('AuthToken Error: ' + e)
+      }
+    })();
+  }, [getAccessTokenSilently]);
+
+  return (
+    <Card>
+      <div>
+        <p>{ accessToken }</p>
       </div>
     </Card>
   )

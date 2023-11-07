@@ -14,7 +14,12 @@ root.render(
   <React.StrictMode>
     <Auth0Provider domain="cugli.auth0.com"
       clientId="7GqoTfTRRm7mpGRor8ZxLM2j9En2AUgj"
-      authorizationParams={{redirect_uri: window.location.origin + window.location.pathname }} >
+      authorizationParams={{
+          redirect_uri: window.location.origin + window.location.pathname,
+          audience: 'https://cronify/hasura',
+          //display: 'touch',
+          //prompt: 'consent',
+          scope: 'profile' }} >
       <App />
     </Auth0Provider>
   </React.StrictMode>
