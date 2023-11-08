@@ -1,11 +1,13 @@
-import React from 'react';
-import MainTab from "./Components/MainTab";
-import Hasura from "./Components/Hasura";
-import {LoginButton, LogoutButton, AuthCard, UserInfoCard, AuthToken} from "./Components/Auth";
-import {Page, Card, Button, Toolbar, ToolbarButton, BackButton, Icon, Tabbar, Tab, TabPage} from 'react-onsenui';
+import React from 'react'
+import AnonApp from './AnonApp'
+import MainTab from './Components/MainTab'
+import Hasura from './Components/Hasura'
+import {AuthRequired, AuthCard, UserInfoCard, AuthToken} from './Components/Auth'
+import {Page, Card, Toolbar, ToolbarButton, Icon} from 'react-onsenui'
 
 function App() {
   return (
+    <AuthRequired anonymous={<AnonApp/>} >
     <Page renderToolbar={() =>
       <Toolbar>
         <div className="left">
@@ -24,7 +26,8 @@ function App() {
       <AuthToken/>
       <AuthCard/>
     </Page>
-  );
+    </AuthRequired>
+  )
 }
 
-export default App;
+export default App

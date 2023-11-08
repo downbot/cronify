@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react'
 import {useAuth0} from "@auth0/auth0-react"
 import {Button, Card} from 'react-onsenui'
 
+
+export function AuthRequired({children,anonymous}) {
+   const { isAuthenticated, isLoading } = useAuth0()
+
+   if (!isAuthenticated) return anonymous
+   if (isLoading) return (<div>Loading...</div>)
+
+   return children
+}
+
+
 export function LoginButton() {
   const { loginWithRedirect } = useAuth0();
   return (
@@ -79,3 +90,4 @@ export function AuthToken() {
     </Card>
   )
 }
+
