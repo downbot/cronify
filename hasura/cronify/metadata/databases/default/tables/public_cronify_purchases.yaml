@@ -1,0 +1,55 @@
+table:
+  name: cronify_purchases
+  schema: public
+object_relationships:
+  - name: billing_cycles
+    using:
+      manual_configuration:
+        column_mapping:
+          class_icon_id: id
+        insertion_order: null
+        remote_table:
+          name: cronify_billing_cycles
+          schema: public
+  - name: class_icon
+    using:
+      manual_configuration:
+        column_mapping:
+          class_icon_id: id
+        insertion_order: null
+        remote_table:
+          name: cronify_icons
+          schema: public
+insert_permissions:
+  - role: cronify
+    permission:
+      check:
+        sub:
+          _eq: X-Hasura-User-Id
+      set:
+        sub: x-hasura-User-Id
+      columns:
+        - billing_cycles_id
+        - class_icon_id
+        - datetime
+        - description
+        - price
+    comment: ""
+select_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - billing_cycles_id
+        - id
+        - class_icon_id
+        - price
+        - description
+        - sub
+        - created_at
+        - datetime
+        - updated_at
+      filter:
+        sub:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
+    comment: ""

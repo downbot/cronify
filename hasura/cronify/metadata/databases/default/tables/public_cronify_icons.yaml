@@ -1,0 +1,12 @@
+table:
+  name: cronify_icons
+  schema: public
+select_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - id
+        - description
+        - name
+      filter: {}
+    comment: ""

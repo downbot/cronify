@@ -1,0 +1,41 @@
+table:
+  name: cronify_billing_cycles
+  schema: public
+array_relationships:
+  - name: purchases
+    using:
+      manual_configuration:
+        column_mapping:
+          id: billing_cycles_id
+        insertion_order: null
+        remote_table:
+          name: cronify_purchases
+          schema: public
+insert_permissions:
+  - role: cronify
+    permission:
+      check:
+        sub:
+          _eq: X-Hasura-User-Id
+      set:
+        sub: x-hasura-User-Id
+      columns:
+        - card_id
+        - datefrom
+        - dateto
+    comment: ""
+select_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - card_id
+        - id
+        - sub
+        - created_at
+        - datefrom
+        - dateto
+        - updated_at
+      filter:
+        sub:
+          _eq: X-Hasura-User-Id
+    comment: ""

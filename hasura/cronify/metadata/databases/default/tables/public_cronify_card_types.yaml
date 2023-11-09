@@ -1,0 +1,23 @@
+table:
+  name: cronify_card_types
+  schema: public
+object_relationships:
+  - name: icon
+    using:
+      manual_configuration:
+        column_mapping:
+          icon_id: id
+        insertion_order: null
+        remote_table:
+          name: cronify_icons
+          schema: public
+select_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - icon_id
+        - id
+        - order_num
+        - name
+      filter: {}
+    comment: ""

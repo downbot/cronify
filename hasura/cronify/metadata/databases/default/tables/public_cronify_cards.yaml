@@ -1,0 +1,81 @@
+table:
+  name: cronify_cards
+  schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_root_fields:
+    select_aggregate:
+      comment: ""
+      name: null
+    select_stream:
+      comment: ""
+      name: null
+object_relationships:
+  - name: card_type
+    using:
+      manual_configuration:
+        column_mapping:
+          card_type_id: id
+        insertion_order: null
+        remote_table:
+          name: cronify_card_types
+          schema: public
+  - name: provider
+    using:
+      manual_configuration:
+        column_mapping:
+          provider_id: id
+        insertion_order: null
+        remote_table:
+          name: cronify_providers
+          schema: public
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          sub: sub
+        insertion_order: null
+        remote_table:
+          name: cronify_users
+          schema: public
+array_relationships:
+  - name: billing_cycles
+    using:
+      manual_configuration:
+        column_mapping:
+          id: card_id
+        insertion_order: null
+        remote_table:
+          name: cronify_billing_cycles
+          schema: public
+insert_permissions:
+  - role: cronify
+    permission:
+      check:
+        sub:
+          _eq: X-Hasura-User-Id
+      set:
+        sub: x-hasura-User-Id
+      columns:
+        - bank
+        - card_type_id
+        - last4num
+        - provider_id
+    comment: ""
+select_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - id
+        - last4num
+        - card_type_id
+        - bank
+        - provider_id
+        - sub
+        - created_at
+        - updated_at
+      filter:
+        sub:
+          _eq: X-Hasura-User-Id
+    comment: ""

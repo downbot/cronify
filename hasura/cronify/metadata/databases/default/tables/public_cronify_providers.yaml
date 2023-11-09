@@ -1,0 +1,12 @@
+table:
+  name: cronify_providers
+  schema: public
+is_enum: true
+select_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - id
+        - name
+      filter: {}
+    comment: ""

@@ -1,0 +1,57 @@
+table:
+  name: cronify_users
+  schema: public
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_root_fields:
+    select_by_pk:
+      comment: ""
+      name: null
+array_relationships:
+  - name: cards
+    using:
+      manual_configuration:
+        column_mapping:
+          sub: sub
+        insertion_order: null
+        remote_table:
+          name: cronify_cards
+          schema: public
+insert_permissions:
+  - role: cronify
+    permission:
+      check:
+        sub:
+          _eq: X-Hasura-User-Id
+      set:
+        sub: x-hasura-User-Id
+      columns:
+        - family_name
+        - given_name
+        - name
+    comment: ""
+select_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - family_name
+        - given_name
+        - name
+        - sub
+      filter:
+        sub:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: cronify
+    permission:
+      columns:
+        - family_name
+        - given_name
+        - name
+      filter:
+        sub:
+          _eq: X-Hasura-User-Id
+      check: {}
+    comment: ""
