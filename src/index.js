@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-//import './index.css';
 import OnsenUI from 'onsenui';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -8,6 +7,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

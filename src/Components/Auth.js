@@ -54,7 +54,7 @@ export function AuthCard() {
   const { isAuthenticated } = useAuth0()
   return (
     <Card>
-      <div>
+      <div style={{ textAlign: 'center'}}>
       { !isAuthenticated && <LoginButton/>  }
       {  isAuthenticated && <LogoutButton/> }
       </div>
