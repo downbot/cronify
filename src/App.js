@@ -2,7 +2,8 @@ import React from 'react'
 import AnonApp from './AnonApp'
 import MainTab from './Components/MainTab'
 import Hasura from './Components/Hasura'
-import {AuthRequired, AuthCard, UserInfoCard, AuthToken} from './Components/Auth'
+import {appName, appVersion} from './config'
+import {AuthRequired, AuthCard, UserInfoCard, AuthToken} from './Auth'
 import {Page, Card, Toolbar, ToolbarButton, Icon} from 'react-onsenui'
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
         <div className="left">
           <ToolbarButton><Icon icon="md-menu" /></ToolbarButton>
         </div>
-        <div className="center">Cronify v6</div>
+        <div className="center">{appName} {appVersion}</div>
       </Toolbar> } >
 
       <MainTab />

@@ -1,16 +1,15 @@
 import React from 'react'
-//import {Page, Card} from 'react-onsenui'
-import {LoginButton} from './Components/Auth'
-import {slogan, imgPath} from './config'
+import {LoginButton} from './Auth'
+import {slogan, publicUrl} from './config'
 
 function App() {
   return (
-    <div class="anonAppPage">
-      <section class="anonAppLayout">
+    <div className="anonAppPage">
+      <section className="anonAppLayout">
         <div></div>
-        <div><img src={imgPath('logo192.png')}  alt="Cronify" /> </div>
-        <div><img src={imgPath('cronify-logo.png')} alt="Cronify" />
-        <p class="textSlogan" >{slogan}</p></div>
+        <div><img src={publicUrl('logo192.png')}  alt="Cronify" /></div>
+        <div><img src={publicUrl('cronify-logo.png')} alt="Cronify" />
+        <p className="textSlogan" >{slogan}</p></div>
         <div><LoginButton/></div>
         <div></div>
       </section>

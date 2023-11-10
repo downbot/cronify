@@ -1,8 +1,25 @@
 
-export const appname = 'Cronify'
+export const appVersion = process.env.REACT_APP_VERSION || 'v0.1'
+
+export const appName = process.env.REACT_APP_NAME || 'Cronify'
 	
-export const slogan = 'credit and savings tracking'
+export const slogan = process.env.REACT_APP_SLOGAN || 'credit and savings tracking'
 
-export const imgPath = (filename) => window.location.origin + window.location.pathname + '/' + filename
+export const publicUrl = (filename) => process.env.PUBLIC_URL + '/' + filename
 
-export default { appname, slogan }
+export const returnTo = () => window.location.origin + window.location.pathname
+
+export const auth0config = {
+		domain: process.env.REACT_APP_AUTH0_DOMAIN,
+		clientId: process.env.REACT_APP_AUTH0_CLIENTID
+	}
+
+export const auth0params = {
+		redirect_uri: returnTo(),
+		audience: process.env.REACT_APP_AUTH0_API_AUDIENCE,
+		scope: 'profile'
+	}
+
+const def = { appVersion, appName, slogan }
+export default def
+

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {useAuth0} from "@auth0/auth0-react"
 import {Button, Card} from 'react-onsenui'
+import {returnTo} from './config'
 
 
 export function AuthRequired({children,anonymous}) {
@@ -16,7 +17,7 @@ export function AuthRequired({children,anonymous}) {
 export function LoginButton() {
   const { loginWithRedirect } = useAuth0();
   return (
-    <button class="loginButton" onClick={() => loginWithRedirect()}>Log In</button>
+    <button className="loginButton" onClick={() => loginWithRedirect()}>Log In</button>
   )
 }
 
@@ -24,7 +25,7 @@ export function LogoutButton() {
   const { logout } = useAuth0();
   return (
     <Button onClick={() => 
-        logout({ logoutParams: { returnTo: window.location.origin + window.location.pathname } })}>
+        logout({ logoutParams: { returnTo: returnTo() } })}>
         Log Out
     </Button>
   )
@@ -71,7 +72,7 @@ export function AuthToken() {
     (async () => {
       try {
         const token = await getAccessTokenSilently({
-          authorizationParams: { audience: 'https://cronify/hasura'  }
+          authorizationParams: { audience: process.env.AUTH0_API_AUDIENCE }
         });
         setAccessToken(token)
         window.cronify_token = token
