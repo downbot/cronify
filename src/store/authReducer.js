@@ -1,14 +1,15 @@
-import { UPDATE_NAME, UPDATE_LASTNAME, UPDATE_AGE } from './actionTypes'
+import { SET_ACCESS_TOKEN, UPDATE_LASTNAME, UPDATE_AGE } from './actionTypes'
 
 export default function authReducer(state, action) {
-
-  switch (state.type) {
-    case UPDATE_NAME:
-      return { ...state, name: action.payload }
+  const { payload } = action
+  
+  switch (action.type) {
+    case SET_ACCESS_TOKEN:
+      return { ...state, accessToken: payload }
     case UPDATE_LASTNAME:
-      return { ...state, lastName: action.payload }
+      return { ...state, lastName: payload }
     case UPDATE_AGE:
-      return { ...state, age: action.payload }
+      return { ...state, age: payload }
     default:
       return state
   }

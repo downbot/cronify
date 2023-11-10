@@ -1,3 +1,5 @@
-export const UPDATE_NAME = "updateName"
-export const UPDATE_LASTNAME = "upateLastName"
-export const UPDATE_AGE = "updateAge"
+
+export const SET_ACCESS_TOKEN = 'setAccessToken'
+export const UPDATE_LASTNAME = 'upateLastName'
+export const UPDATE_AGE = 'updateAge'
+

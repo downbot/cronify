@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useReducer } from 'react'
+import React, { useEffect, useContext, useReducer } from 'react'
 import {useAuth0} from "@auth0/auth0-react"
 import {Button, Card} from 'react-onsenui'
 import {returnTo, auth0params} from './config'
 import AuthContext from './store/AuthContext'
 import authReducer from './store/authReducer'
-
+import {setAccessToken} from './store/actions'
 
 function AuthStore({children, user}) {
-	const store = useReducer(authReducer, {user})
+	const store = useReducer(authReducer, {user, accessToken:null})
 
-	return <AuthContext.Provider value={store}  children />
+	return <AuthContext.Provider value={store} children={children} />
 }
 
 export function AuthRequired({children,anonymous}) {
@@ -18,7 +18,7 @@ export function AuthRequired({children,anonymous}) {
 	if (!isAuthenticated) return anonymous
 	if (isLoading) return <div>Loading...</div>
 
-	return <AuthStore children user={user} />
+	return <AuthStore user={user} >{children}</AuthStore>
 }
 
 
@@ -73,29 +73,31 @@ export function AuthCard() {
 
 //getAccessTokenWithPopup
 export function AuthToken() {
-  const { getAccessTokenSilently } = useAuth0();
-  const [accessToken, setAccessToken] = useState('accessToken?');
+	const { getAccessTokenSilently } = useAuth0()
+	const [state, dispatch] = useContext(AuthContext)
 
-  useEffect(() => {
-    (async () => {
+	useEffect(() => {
+		(async () => {
       try {
         const token = await getAccessTokenSilently({
           authorizationParams: { audience: auth0params.audience }
-        });
-        setAccessToken(token)
-        window.cronify_token = token
-	localStorage.setItem('hasuraToken',token)
+        })
+			dispatch(setAccessToken(token))
+			window.cronify_token = token
+			localStorage.setItem('hasuraToken',token)
       } catch (e) {
         console.error(e);
-	setAccessToken('AuthToken Error: ' + e)
+        dispatch(setAccessToken(null))
       }
-    })();
-  }, [getAccessTokenSilently]);
+    })()
+  }, [dispatch,getAccessTokenSilently])
 
   return (
     <Card>
       <div>
-        <p>{ accessToken }</p>
+        { state.user.name? <p>user.name: {state.user.name}</p> : [] }
+        { state.user.sub? <p>user.sub: {state.user.sub}</p> : [] }
+        <p>{ state.accessToken? state.accessToken.substring(0, 42) + '...' : 'accessToken is not available' }</p>
       </div>
     </Card>
   )
