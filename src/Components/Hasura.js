@@ -11,7 +11,7 @@ const apolloClient = new ApolloClient({
     uri: 'https://cronify.hasura.app/v1/graphql',
     credentials: 'include',
     headers: {
-     authorization: localStorage.getItem('hasuraToken'),
+     authorization: 'Bearer ' + localStorage.getItem('hasuraToken'),
      'x-hasura-role': 'cronify'
     }
   }),
@@ -22,15 +22,22 @@ console.log(apolloClient);
 
 const GET_CRONIFY_CARDS_QUERY = gql`
   query GetCronifyCards {
-    cronify_cards {
+    cards: cronify_cards {
       id
-      created_at
-      updated_at
-      sub
       bank
       last4num
-      type
-      provider
+      card_type {
+        id
+        name
+         icon {
+           name
+           description
+         }
+      }
+      provider {
+        id
+        name
+      }
     }
   }
 `;
@@ -64,13 +71,13 @@ function GetCronifyCardsQuery() {
   const { loading, error, data } = useQuery(GET_CRONIFY_CARDS_QUERY);
 
   console.log(loading,error,data)
-  if (error) return <p>Error : {error.message}</p>;
-  if (loading) return <p>Loading...useQc --- {error} -- {data}</p>;
+  if (error) return (<p>Error : {error.message}</p>)
+  if (loading) return (<p>Loading...useQc --- {error} -- {data}</p>)
 
-  return data.cronify_cards.map(({ id, sub, bank, provider }) => (
+  return data.cards.map(({ id, bank, provider }) => (
     <div key={id}>
-      <h3>{sub}</h3> <br />
-      <b>{bank}</b> - <p>{provider}</p>
+      <h3>{bank}</h3> <br />
+      <p>{provider.name}</p>
       <br />
     </div>
   ));

@@ -16,7 +16,7 @@ export function AuthRequired({children,anonymous}) {
 export function LoginButton() {
   const { loginWithRedirect } = useAuth0();
   return (
-    <Button onClick={() => loginWithRedirect()}>Log In</Button> 
+    <button class="loginButton" onClick={() => loginWithRedirect()}>Log In</button>
   )
 }
 
@@ -75,6 +75,7 @@ export function AuthToken() {
         });
         setAccessToken(token)
         window.cronify_token = token
+	localStorage.setItem('hasuraToken',token)
       } catch (e) {
         console.error(e);
 	setAccessToken('AuthToken Error: ' + e)
