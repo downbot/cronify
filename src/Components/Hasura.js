@@ -55,10 +55,10 @@ function GetCronifyCardsQuery() {
   const { loading, error, data } = useQuery(GET_CRONIFY_CARDS_QUERY);
 
   console.log(loading,error,data)
-  if (error) return (<p>Error : {error.message}</p>)
-  if (loading) return (<p>Loading --- {error} -- {data}</p>)
+  if (error) return <Card><p>Error : {error.message}</p></Card>
+  if (loading) return <Card><p>Loading...</p></Card>
 
-  return data.cards.map(({ id, bank, provider }) => (
+  return data.cards.map(({ id, bank, provider }) =>
     <Card>
     <div key={id}>
       <h3>{bank}</h3> <br />
@@ -66,7 +66,7 @@ function GetCronifyCardsQuery() {
       <br />
     </div>
     </Card>
-  ));
+  );
 }
 
 

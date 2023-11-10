@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {useAuth0} from "@auth0/auth0-react"
 import {Button, Card} from 'react-onsenui'
-import {returnTo} from './config'
+import {returnTo, auth0params} from './config'
 
 
 export function AuthRequired({children,anonymous}) {
@@ -72,7 +72,7 @@ export function AuthToken() {
     (async () => {
       try {
         const token = await getAccessTokenSilently({
-          authorizationParams: { audience: process.env.AUTH0_API_AUDIENCE }
+          authorizationParams: { audience: auth0params.audience }
         });
         setAccessToken(token)
         window.cronify_token = token
