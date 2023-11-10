@@ -1,34 +1,42 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import {useAuth0} from "@auth0/auth0-react"
 import {Button, Card} from 'react-onsenui'
 import {returnTo, auth0params} from './config'
+import AuthContext from './store/AuthContext'
+import authReducer from './store/authReducer'
 
+
+function AuthStore({children, user}) {
+	const store = useReducer(authReducer, {user})
+
+	return <AuthContext.Provider value={store}  children />
+}
 
 export function AuthRequired({children,anonymous}) {
-   const { isAuthenticated, isLoading } = useAuth0()
+	const { user, isAuthenticated, isLoading } = useAuth0()
 
-   if (!isAuthenticated) return anonymous
-   if (isLoading) return (<div>Loading...</div>)
+	if (!isAuthenticated) return anonymous
+	if (isLoading) return <div>Loading...</div>
 
-   return children
+	return <AuthStore children user={user} />
 }
 
 
 export function LoginButton() {
-  const { loginWithRedirect } = useAuth0();
-  return (
-    <button className="loginButton" onClick={() => loginWithRedirect()}>Log In</button>
-  )
+	const { loginWithRedirect } = useAuth0()
+	return (
+		<button className="loginButton" onClick={() => loginWithRedirect()}>Log In</button>
+	)
 }
 
 export function LogoutButton() {
-  const { logout } = useAuth0();
-  return (
-    <Button onClick={() => 
-        logout({ logoutParams: { returnTo: returnTo() } })}>
-        Log Out
-    </Button>
-  )
+	const { logout } = useAuth0()
+	return (
+		<Button onClick={() =>
+			logout({ logoutParams: { returnTo: returnTo() } })}>
+			Log Out
+		</Button>
+	)
 }
 
 export function UserInfoCard() {
