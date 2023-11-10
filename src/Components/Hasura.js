@@ -1,23 +1,32 @@
 import gql from 'graphql-tag'
 import React from 'react'
-import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost'
-import { Query, useQuery, ApolloProvider } from 'react-apollo'
+import { ApolloClient, InMemoryCache, HttpLink, ApolloLink } from 'apollo-boost'
+//import { ApolloLink } from '@apollo/client';
+import { useQuery, ApolloProvider } from 'react-apollo'
+import { Card } from 'react-onsenui'
 
 
-// This setup is only needed once per application;
-const apolloClient = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({
+const httpLink = new HttpLink({
     uri: 'https://cronify.hasura.app/v1/graphql',
     credentials: 'include',
-    headers: {
-     authorization: 'Bearer ' + localStorage.getItem('hasuraToken'),
-     'x-hasura-role': 'cronify'
-    }
-  }),
-});
+    headers: { 'x-hasura-role': 'cronify' }
+  })
 
-console.log(apolloClient);
+const authLink = new ApolloLink((operation, forward) => {
+  operation.setContext(({ headers }) => ({ headers: {
+    ...headers,
+    authorization: 'Bearer ' + localStorage.getItem('hasuraToken')
+  }}))
+  console.log(`Token updated for Operation ${operation.operationName}.`)
+  return forward(operation)
+})
+
+const apolloClient = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink)
+})
+
+console.log(apolloClient)
 
 
 const GET_CRONIFY_CARDS_QUERY = gql`
@@ -32,39 +41,12 @@ const GET_CRONIFY_CARDS_QUERY = gql`
          icon {
            name
            description
-         }
-      }
+      }  }
       provider {
         id
         name
-      }
-    }
-  }
+  } } }
 `;
-
-function GetCronifyCardsQuery_ORIG (props) {
-  return (
-    <Query
-      query={GET_CRONIFY_CARDS_QUERY} >
-      {({ loading, error, data }) => {
-        
-        if (error)
-          return (
-            <pre>
-              Error in GET_CRONIFY_CARDS_QUERY
-              {JSON.stringify(error, null, 2)}
-            </pre>
-          );
-         if (loading) return <pre>Loadingo..!</pre>
-        if (data) {
-          return (
-            <pre>{JSON.stringify(data, null, 2)}</pre>
-          )
-        }
-      }}
-    </Query>
-  )
-}
 
 
 function GetCronifyCardsQuery() {
@@ -72,20 +54,24 @@ function GetCronifyCardsQuery() {
 
   console.log(loading,error,data)
   if (error) return (<p>Error : {error.message}</p>)
-  if (loading) return (<p>Loading...useQc --- {error} -- {data}</p>)
+  if (loading) return (<p>Loading --- {error} -- {data}</p>)
 
   return data.cards.map(({ id, bank, provider }) => (
+    <Card>
     <div key={id}>
       <h3>{bank}</h3> <br />
       <p>{provider.name}</p>
       <br />
     </div>
+    </Card>
   ));
 }
 
-export default () => (
+
+const Hasura = () => (
   <ApolloProvider client={apolloClient}>
     <GetCronifyCardsQuery  />
   </ApolloProvider>
  )
 
+export default Hasura
