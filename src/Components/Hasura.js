@@ -13,11 +13,13 @@ const httpLink = new HttpLink({
   })
 
 const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem('hasuraToken')
+  if(!token) throw new Error("authorization token is not available")
   operation.setContext(({ headers }) => ({ headers: {
     ...headers,
-    authorization: 'Bearer ' + localStorage.getItem('hasuraToken')
+    authorization: 'Bearer ' + token
   }}))
-  console.log(`Token updated for Operation ${operation.operationName}.`)
+  console.log(`Token(${token.length}) updated for Operation ${operation.operationName}.`)
   return forward(operation)
 })
 
